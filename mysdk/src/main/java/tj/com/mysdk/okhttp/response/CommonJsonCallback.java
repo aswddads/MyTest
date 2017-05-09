@@ -92,8 +92,10 @@ public class CommonJsonCallback implements Callback {
                         mListener.onSuccess(result);
                     } else {
                         //需要将json对象转换为实体对象
+                        String resu=res.toString();
                         Gson gson=new Gson();
-                        Object obj=gson.fromJson(String.valueOf(res),mClass);
+//                        Object obj=gson.fromJson(resu,mClass);
+                        Object obj=parseJsonWithGson(resu,mClass);
 //                        正确的转化为了实体类
                         if (obj != null) {
                             mListener.onSuccess(obj);
@@ -111,4 +113,9 @@ public class CommonJsonCallback implements Callback {
             mListener.onFailure(new OkHttpException(OTHER_ERROR,e.getMessage()));
         }
     }
+    public static <T> T parseJsonWithGson(String jsonData, Class<T> type) {
+                 Gson gson = new Gson();
+                T result = gson.fromJson(jsonData, type);
+                return result;
+             }
 }

@@ -21,10 +21,9 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Created by Jun on 17/5/4.  支持指定的证书
- * https完全解析 洪洋博客
+ * @author vision
+ * @function support the sslsocket
  */
-
 public class HttpsUtils {
     public static SSLSocketFactory getSslSocketFactory(InputStream[] certificates, InputStream bksFile, String password) {
         try {
@@ -74,6 +73,8 @@ public class HttpsUtils {
             return trustManagers;
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+        } catch (CertificateException e) {
+            e.printStackTrace();
         } catch (KeyStoreException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -100,6 +101,8 @@ public class HttpsUtils {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnrecoverableKeyException e) {
+            e.printStackTrace();
+        } catch (CertificateException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,16 +133,16 @@ public class HttpsUtils {
         }
 
         @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) {
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 
         }
 
         @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) {
+        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             try {
                 defaultTrustManager.checkServerTrusted(chain, authType);
-            } catch (java.security.cert.CertificateException e) {
-                e.printStackTrace();
+            } catch (CertificateException ce) {
+                localTrustManager.checkServerTrusted(chain, authType);
             }
         }
 
@@ -153,7 +156,6 @@ public class HttpsUtils {
     public static SSLSocketFactory initSSLSocketFactory() {
         SSLContext sslContext = null;
         try {
-            //算法类型要与服务器保持一致
             sslContext = SSLContext.getInstance("SSL");
             X509TrustManager[] xTrustArray = new X509TrustManager[]
                     {initTrustManager()};
@@ -173,48 +175,13 @@ public class HttpsUtils {
             }
 
             @Override
-            public void checkServerTrusted(X509Certificate[] chain, String authType) {
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
 
             @Override
-            public void checkClientTrusted(X509Certificate[] chain, String authType) {
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
         };
         return mTrustManager;
-    }
-    /**
-     *   https的支持  支持所有证书
-     * @return
-     */
-    public static SSLSocketFactory getSslSocketFactory() {
-        //生成信任管理器类
-        X509TrustManager mTrustManager = new X509TrustManager() {
-            @Override
-            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-
-            }
-
-            @Override
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-        };
-        //创建加密上下文
-        SSLContext sslContext=null;
-        try {
-            //算法类型与服务器保持一致
-            sslContext=SSLContext.getInstance("SSL");
-            X509TrustManager[] xTrustArray=new X509TrustManager[]{mTrustManager};
-            sslContext.init(null,xTrustArray,new SecureRandom());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return sslContext.getSocketFactory();
     }
 }
