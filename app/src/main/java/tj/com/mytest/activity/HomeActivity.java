@@ -27,8 +27,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener{
     private RelativeLayout mMineLayout;
     private TextView mHomeView;
     private TextView mPondView;
-    private TextView mMessageView;
-    private TextView mMineView;
+     private TextView mMessageView;
+     private TextView mMineView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

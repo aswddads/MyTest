@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MyTest.iml" filepath="$PROJECT_DIR$/MyTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tanjun.iml" filepath="$PROJECT_DIR$/Tanjun.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mysdk/mysdk.iml" filepath="$PROJECT_DIR$/mysdk/mysdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/mysdk/mysdk.iml" filepath="$PROJECT_DIR$/mysdk/mysdk.iml" />
     </modules>
   </component>
