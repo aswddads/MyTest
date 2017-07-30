@@ -34,8 +34,8 @@ public class Util {
             }
             Hashtable<EncodeHintType, String> hints = new Hashtable<>();
             hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-            BitMatrix bitMatrix = new QRCodeWriter().encode(source, BarcodeFormat.QR_CODE, width, height, hints);
-            int[] pixels = new int[width * height];
+             BitMatrix bitMatrix = new QRCodeWriter().encode(source, BarcodeFormat.QR_CODE, width, height, hints);
+             int[] pixels = new int[width * height];
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
                     if (bitMatrix.get(x, y)) {
